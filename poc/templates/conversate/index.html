@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block browser-title %}{{ request.user.username }} Conversations{% endblock %}
+
+{% block browser-body %}
+
+  <div class="row">
+  <div class="col-md-8">
+  <h3>Current Conversations for <strong>{{ request.user.username }}</strong></h3>
+  {% if conversations.all %}
+    <ul class="list-unstyled">
+    {% for conv in conversations.all %}
+      <li>
+        (with <a href="{{ conv.partner.username }}/">{{ conv.partner.username }}</a>)
+	{{ conv.last_message.sender.username }} last said: "{{ conv.last_message.content }}"
+	 on {{ conv.last_message.timestamp }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    No conversations yet! Start by choosing a user to the right -&gt;
+  {% endif %}
+  </div>
+  <div class="col-md-4">
+    <h4>Available users:</h4>
+    <ul class="list-unstyled">
+    {% for user in users %}
+      <li><a href="{{ user.username }}">{{ user.username }}</a></li>
+    {% endfor %}
+    </ul>
+
+  </div>
+  </div>
+
+{% endblock browser-body %}

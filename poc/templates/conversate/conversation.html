@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block ng_app %}conversateApp{% endblock %}
+
+{% block browser-title %}{{ request.user.username }} and {{ partner.username }}{% endblock %}
+
+{% block browser-body %}
+
+  <h3>Conversation with {{ partner.username }}</h3>
+
+  <div id="msgcontainer" class="well" style="overflow-y:scroll; height:400px; position:relative; bottom:0;">
+    <div id="messages" class="container-fluid" ng-view>
+    </div>
+  </div>
+
+  <form id="send-message" name="form" ng-submit="submit('{{ partner.username }}')" ng-controller="SubmitMessageController">{% csrf_token %}<div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <input name="message" ng-model="message" type="text" class="form-control" placeholder="Message {{ partner.username }}...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">Send <span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
+      </span>
+    </div>
+  </div></form>
+
+
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <br/>
+    <a href="javascript: history.go(-1)">Return</a> to conversations...
+  </div>
+<div>
+
+{% endblock browser-body %}
+
+
+{% block bottom-page-javascript %}
+  <script src="/static/js/conversate.js"></script>
+  <script language="javascript" type="text/javascript">
+    $(document).ready(function(){
+      console.log("ready success");
+    });
+  </script>
+{% endblock bottom-page-javascript %}
